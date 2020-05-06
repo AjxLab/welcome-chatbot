@@ -14,7 +14,7 @@ def load_from_file(files_pattern):
     # read text
     text = ""
     for path in iglob(files_pattern):
-        with open(path, 'r') as f:
+        with open(path, 'r', errors='ignore') as f:
             text += f.read().strip()
 
     # delete some symbols
@@ -31,7 +31,7 @@ def load_from_file(files_pattern):
 
 
 def split_for_markovify(text):
-   """split text to sentences by newline, and split sentence to words by space.
+    """split text to sentences by newline, and split sentence to words by space.
     """
     # separate words using mecab
     mecab = MeCab.Tagger()

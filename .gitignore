@@ -1,1 +1,3 @@
-.DS_Store
+/.DS_Store
+/__pychache__/
+/text/*.txt
