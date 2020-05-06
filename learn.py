@@ -79,7 +79,7 @@ def main():
     print(''.join(sentence.split()))    # need to concatenate space-splitted text
 
     # save learned data
-    with open('model/model1.json', 'w') as f:
+    with open('model/model.json', 'w') as f:
         f.write(text_model.to_json())
 
 
