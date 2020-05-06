@@ -5,7 +5,7 @@ import os, re, json, random
 
 # 形態素解析でトークン化
 tokenizer = Tokenizer()
-dict_file = 'model/dict.json'
+dict_file = 'model/model.json'
 dic = {}
 
 
