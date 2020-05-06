@@ -3,7 +3,6 @@
 from glob import iglob
 import re
 from janome.tokenizer import Tokenizer
-import MeCab
 import markovify
 
 
@@ -33,8 +32,8 @@ def load_from_file(files_pattern):
 def split_for_markovify(text):
     """split text to sentences by newline, and split sentence to words by space.
     """
-    # separate words using mecab
-    mecab = MeCab.Tagger()
+    # separate words using janome
+    tagger = Tokenizer()
     splitted_text = ""
 
     # these chars might break markovify
@@ -50,20 +49,17 @@ def split_for_markovify(text):
 
     # split whole text to sentences by newline, and split sentence to words by space.
     for line in text.split():
-        mp = mecab.parseToNode(line)
-        while mp:
+        for token in tagger.tokenize(line):
             try:
-                if mp.surface not in breaking_chars:
-                    splitted_text += mp.surface    # skip if node is markovify breaking char
-                if mp.surface != '。' and mp.surface != '、':
+                if token.surface not in breaking_chars:
+                    splitted_text += token.surface    # skip if node is markovify breaking char
+                if token.surface != '。' and token.surface != '、':
                     splitted_text += ' '    # split words by space
-                if mp.surface == '。':
+                if token.surface == '。':
                     splitted_text += '\n'    # reresent sentence by newline
             except UnicodeDecodeError as e:
                 # sometimes error occurs
                 print(line)
-            finally:
-                mp = mp.next
 
     return splitted_text
 
@@ -83,7 +79,7 @@ def main():
     print(''.join(sentence.split()))    # need to concatenate space-splitted text
 
     # save learned data
-    with open('model/model.json', 'w') as f:
+    with open('model/model1.json', 'w') as f:
         f.write(text_model.to_json())
 
 
