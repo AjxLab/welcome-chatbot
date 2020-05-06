@@ -20,18 +20,16 @@ while True:
     # Botメッセージを表示
     print('Bot：%s' % bot_msg)
     # Botへメッセージを送る
+    print('')
     usr_msg = input('You：')
 
     # 応答済みか
     called = False
 
     # 挨拶
-    words = ['はじめまして', 'こんにちは', 'おはよう', 'こんにちは', 'こんばんは']
-    for w in words:
-        if w in usr_msg:
-            bot_msg = w
-            called = True
-            break
+    if tagger.tokenize(usr_msg)[0].part_of_speech.split(',')[0] == '感動詞':
+        bot_msg = tagger.tokenize(usr_msg)[0].surface + '。'
+        called = True
     if called:  continue
 
     # 自己紹介
