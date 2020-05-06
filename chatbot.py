@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
+import markovify
+from janome.tokenizer import Tokenizer
 import oseti
-import engine
+
 
 # ネガポジ分析
 # nega(-1.0) <-> posi(1.0)
 analyzer = oseti.Analyzer()
+# マルコフ連鎖の学習済みモデル
+model = markovify.Text.from_json(open('model/model.json').read())
+# 形態素解析器
+tagger = Tokenizer()
 
 bot_msg = '話しかけてください'
-
 
 # 入力 <-> 応答
 while True:
@@ -46,13 +51,20 @@ while True:
             exit(0)
     if called:  continue
 
+    # ネガティブな発言
     if analyzer.analyze(usr_msg)[-1] < 0.0:
         bot_msg = 'あまり気を落とさないでください。。'
         called = True
     if called:  continue
 
-    print(engine.make_reply(usr_msg))
-
+    # 文章生成
+    try:
+        start = tagger.tokenize(usr_msg)[0].surface
+        bot_msg = model.make_sentence_with_start(beginning=start).replace(' ', '')
+        called = True
+    except:
+        pass
+    if called:  continue
 
     # マッチしない場合
     bot_msg = 'すみません，よくわかりません。'

@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 from glob import iglob
 import re
-
+from janome.tokenizer import Tokenizer
 import MeCab
 import markovify
 
