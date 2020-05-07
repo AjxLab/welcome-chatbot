@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 import markovify
 from janome.tokenizer import Tokenizer
-import oseti
+import wakalinus
 import re
 import requests
 
 
 # ネガポジ分析
 # nega(-1.0) <-> posi(1.0)
-analyzer = oseti.Analyzer()
+analyzer = wakalinus.Analyzer()
 # マルコフ連鎖の学習済みモデル
 model = markovify.Text.from_json(open('model/model.json').read())
 # 形態素解析器
