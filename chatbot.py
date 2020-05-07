@@ -3,6 +3,8 @@
 import markovify
 from janome.tokenizer import Tokenizer
 import oseti
+import re
+import requests
 
 
 # ネガポジ分析
@@ -38,6 +40,17 @@ while True:
         if w in usr_msg:
             name = usr_msg.replace(w, '').replace('です', '').replace('。', '')
             bot_msg = 'こんにちは。%sさん' % name
+            called = True
+            break
+    if called:  continue
+
+    # ダジャレ
+    words = ['ダジャレ', '地口', 'ジョーク']
+    for w in words:
+        if w in usr_msg:
+            url = 'https://script.google.com/macros/s/AKfycbx2h8jWePcUxszENqm4EqO7gk1bMDqGQKOUSPfQkDKtdwfoxAM/exec?randNum=1'
+            res = requests.get(url)
+            bot_msg = res.json()['jokes'][0]['joke']
             called = True
             break
     if called:  continue
