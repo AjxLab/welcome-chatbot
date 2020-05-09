@@ -8,7 +8,6 @@ import requests
 
 
 # ネガポジ分析
-# nega(-1.0) <-> posi(1.0)
 analyzer = wakalinus.Analyzer()
 # マルコフ連鎖の学習済みモデル
 model = markovify.Text.from_json(open('model/model.json').read())
